@@ -197,19 +197,59 @@ Prof. Sridhar Mahadevan
 	\item
 		\begin{enumerate}
 			\item
+				\begin{figure}[H]
+					\centering
+					\caption{Average reward vs. learning rate.}
+					\includegraphics[width=0.5\textwidth]{fig/learning_rate.png}
+					\label{fig:learning_rate}
+				\end{figure}
 				%http://cs.stanford.edu/people/karpathy/convnetjs/intro.html
 				%The gradient is the vector in the parameter space along which your function (here probability of 4) increases the most. So we forwarded our image of 4, computed the probability of answer being 4, then computed the gradient on all parameters of the network, and finally we nudge all the parameters slightly along that gradient. Some people call this procedure backpropagation (or backprop), but in the form I presented it's also just stochastic gradient descent, a vanilla method in optimization literature.
 
 				%The amount we nudge is called the learning rate, and is perhaps the single most important number in training these networks. If it's high, the networks learn faster, but if it's too high, the networks can explode. On the other hand, if it's too low the training will take a very long time. Usually you start it higher (for example say 0.1), but not too high (!) and anneal it slowly over time a few orders of magnitude (down to 0.0001 perhaps). 
-				Value did not increase much when learning rate reduced beyond 0.01, but the training time or time for the value to stablilize increased substantially.
-				While values were low with higher training rates, there was no divergence.
+				Generally, in Figure~\ref{fig:learning_rate} we see average reward increase as the learning rate or amount we move the parameters in the direction of the gradient decrease.
+				However, as the learning rate decreased, the training time or the time it took the average reward to stabilize was substantially greater.
+				No divergence in average reward occurred at the higher learning rates.
 			\item
+				\begin{figure}[H]
+					\centering
+					\caption{Average reward vs. momentum.}
+					\includegraphics[width=0.5\textwidth]{fig/momentum.png}
+					\label{fig:momentum}
+				\end{figure}
 				%http://ufldl.stanford.edu/tutorial/supervised/OptimizationStochasticGradientDescent/
 				%If the objective has the form of a long shallow ravine leading to the optimum and steep walls on the sides, standard SGD will tend to oscillate across the narrow ravine since the negative gradient will point down one of the steep sides rather than along the ravine towards the optimum. The objectives of deep architectures have this form near local optima and thus standard SGD can lead to very slow convergence particularly after the initial steep gains. Momentum is one method for pushing the objective more quickly along the shallow ravine.
 				%Above values had momentum = 0.
 				%Using learning rate of 0.01.
+				As Figure~\ref{fig:momentum} shows, changing the momentum had no visible effect on the average reward.
+				This makes sense as increased momentum will at best force stochastic gradient descent to reach optimal values more quickly.
 			\item
+				\begin{figure}[H]
+					\centering
+					\caption{Average reward vs. discount factor.}
+					\includegraphics[width=0.5\textwidth]{fig/discount_factor.png}
+					\label{fig:discount_factor}
+				\end{figure}
 				%discount factor originally 0.7, learning_rate 0.01, momentum 0
+				%performance decreases as lambda increases meaning that a greedy strategy is better
+				%this makes sense when looking at the graphic because there don't seem to be instances
+				%in which the agent must eat poison in order to get many apples or 
+				%alternatively eat avoid an apple in order to avoid eating a lot of poison
+				Figure~\ref{fig:discount_factor} shows that average reward generally decreases as the discount factor increases.
+				Therefore, the greedy strategy of maximizing the reward of short-term actions results in a more valuable policy.
+				This agrees with the environment shown in the graphic.
+				For instance, there don't seem to be instances in which the agent must eat poison in order to get many apples or alternatively avoid an apple in order to avoid eating a lot of poison.
+			\item
+				\begin{figure}[H]
+					\centering
+					\caption{Average reward vs. experience size.}
+					\includegraphics[width=0.5\textwidth]{fig/experience_size.png}
+					\label{fig:experience_size}
+				\end{figure}
+				%experience size originally 30000
+				%no divergence at 0
+				As Figure~\ref{fig:experience_size} shows, increased replay memory size improved average reward, especially as the size reached 10000.
+				With this implementation, there was no divergence with low memory size alluded to in \cite{deepmind}.
 		\end{enumerate}
 \end{enumerate}
 
